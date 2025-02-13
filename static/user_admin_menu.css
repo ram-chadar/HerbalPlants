@@ -1,0 +1,97 @@
+/* Navbar Styling */
+.navbar {
+    padding: 12px 20px;
+    transition: all 0.3s ease-in-out;
+    border-bottom: 2px solid #28a745;
+    background-color: white;
+}
+
+.navbar-brand {
+    font-size: 22px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand i {
+    font-size: 24px;
+    margin-right: 8px;
+    color: #28a745;
+}
+
+/* Nav Links */
+.navbar-nav .nav-link {
+    font-size: 16px;
+    font-weight: 500;
+    margin-right: 15px;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+/* Icon Alignment */
+.navbar-nav .nav-link i {
+    margin-right: 8px;
+}
+
+/* Hover Effect - Underline */
+.navbar-nav .nav-link::after {
+    content: "";
+    width: 0;
+    height: 2px;
+    background-color: #28a745;
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    transition: width 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 100%;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #28a745;
+    transform: translateY(-2px);
+}
+
+/* Logout Button */
+.navbar-nav .btn {
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Hover Effect - Button */
+.navbar-nav .btn:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+}
+
+/* Navbar Hover Background Change */
+.navbar:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+    .navbar-nav {
+        text-align: center;
+    }
+
+    .navbar-nav .nav-link {
+        margin: 10px 0;
+    }
+
+    .navbar-nav .btn {
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+    }
+}

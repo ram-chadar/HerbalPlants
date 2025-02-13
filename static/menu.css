@@ -1,0 +1,69 @@
+/* Custom button styling */
+.btn-primary,
+.btn-login,
+.btn-register {
+    background-color: #9be39e;
+    /* Herbal green */
+
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    /* Adjust font size */
+    padding: 10px 20px;
+    /* Padding for better button size */
+    border-radius: 5px;
+    /* Rounded corners */
+    transition: background-color 0.3s, border-color 0.3s;
+    /* Smooth transition for hover */
+    text-transform: uppercase;
+    /* Uppercase text for consistency */
+    display: inline-block;
+    /* Ensure it works well with the layout */
+    margin: 5px 10px;
+    /* Margin to space out the buttons */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Light shadow for a floating effect */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+}
+
+/* Hover effect */
+.btn-primary:hover,
+.btn-login:hover,
+.btn-register:hover {
+    background-color: #388E3C;
+    border: 1px solid #2C6E31;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Shadow effect on hover */
+}
+
+/* Focus effect for accessibility */
+.btn-primary:focus,
+.btn-login:focus,
+.btn-register:focus {
+    outline: none;
+    /* Remove default outline */
+    box-shadow: 0 0 0 4px rgba(72, 209, 103, 0.6);
+    /* Focus shadow to highlight button */
+}
+
+/* Disabled state styling */
+.btn-primary:disabled,
+.btn-login:disabled,
+.btn-register:disabled {
+    background-color: #b5e6b0;
+    /* Lighter green for disabled */
+    border: 1px solid #b5e6b0;
+    /* Matching border */
+    color: #6c757d;
+    /* Dark grey text for disabled */
+    cursor: not-allowed;
+    /* Disable pointer cursor */
+}
+
+/* Button alignment and responsiveness */
+.navbar-nav .nav-item {
+    margin-left: 15px;
+    /* Space out nav items */
+}
