@@ -1,0 +1,36 @@
+body {
+    background: url("https://media.istockphoto.com/id/1965490362/photo/closeup-of-gotu-kola-or-centella-asiatica-plants-with-leaves-also-known-as-indian-pennywort.webp?a=1&b=1&s=612x612&w=0&k=20&c=IIpD9fC9xNbfC_Hor5KO-tKD42j2RfUtCG4Zqn_t--Y=") no-repeat center center/cover;
+    background-size: cover;
+    padding-top: 80px;
+  }
+  .container {
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  .form-label {
+    font-weight: bold;
+    color: #495057;
+  }
+  .form-control {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 10px;
+  }
+  .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+  }
+  .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  .btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }

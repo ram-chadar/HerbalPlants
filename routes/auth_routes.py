@@ -1,9 +1,6 @@
-import re
-from flask import Blueprint, render_template, request, jsonify
-from flask.cli import F
-from flask.config import T
+from flask import Blueprint, render_template, request
 from services.auth_service import authenticate_user, register_user, verify_email_token
-from models.user import db, User
+
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -20,6 +17,9 @@ def login():
     # Redirect user based on role
     return render_template("admin_home.html") if user.role == 'Admin' else render_template("user_home.html"), 200
 
+@auth_bp.route('/logout', methods=['GET'])
+def logout():
+    return render_template("index.html"), 200
 
 @auth_bp.route('/register_user', methods=['POST'])
 def registeruser():
