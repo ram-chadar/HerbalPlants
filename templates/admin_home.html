@@ -3,10 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Admin Home - Herbal Plants</title>
+    <script src="{{ url_for('static', filename='localStorageUtil.js') }}"></script>
+
 </head>
 <body>
     {% include 'admin-menu.html' %}
-    <h1>Admin login</h1>
+    
+    <!-- Page Content -->
+    <div class="container mt-5 pt-5">
+        <h2 class="text-center mt-4">Welcome to the Admin Panel</h2>
+        <p class="text-center text-muted">
+          Manage your plant submissions and users here.
+        </p>
+      </div>
+      <script>
+        // Check if user_id is available and store it in localStorage
+        let userId = "{{ user_id }}";
+        if (userId) {
+            storeUserId(userId);
+        }
+    </script>
 </body>
 </html>

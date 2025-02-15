@@ -13,22 +13,27 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='plant.css') }}"
     />
+    <script src="{{ url_for('static', filename='localStorageUtil.js') }}"></script>
   </head>
   <body>
+    <script>
+      removeUserId();
+    </script>
     {% include 'menu.html' %}
-   
+
     <!-- Visitor Landing Page -->
 
     <div class="visitor-landing">
       <div class="container">
-        <h2 class="text-center" style="color: rgb(235, 10, 10);">{{ message }}</h2>
+        <h2 class="text-center" style="color: rgb(235, 10, 10)">
+          {{ message }}
+        </h2>
 
         <h1>Welcome to the Herbal Plant</h1>
         <p>
           Explore a wide range of plants, their benefits, and detailed
           information.
         </p>
-       
       </div>
     </div>
 
@@ -39,7 +44,7 @@
         <div class="col-md-4 mb-4">
           <div class="card">
             <img
-              src="{{ url_for('static', filename='upload/plants/neem.webp') }}"
+              src="{{ url_for('static', filename='upload/plants/neem.png') }}"
               class="card-img-top"
               alt="Neem Plant"
             />

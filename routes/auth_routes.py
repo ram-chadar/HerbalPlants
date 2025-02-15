@@ -15,7 +15,7 @@ def login():
         return render_template("login.html", message=message), 400
     
     # Redirect user based on role
-    return render_template("admin_home.html") if user.role == 'Admin' else render_template("user_home.html"), 200
+    return render_template("admin_home.html", user_id=user.user_id) if user.role == 'Admin' else render_template("user_home.html", user_id=user.user_id), 200
 
 @auth_bp.route('/logout', methods=['GET'])
 def logout():

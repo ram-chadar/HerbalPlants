@@ -1,6 +1,8 @@
 # routes/page_routes.py
 from flask import Blueprint, render_template
 
+from services.admin_service import get_all_categories
+
 # Define the Blueprint 'page'
 page = Blueprint('page', __name__)
 
@@ -23,7 +25,8 @@ def user_home():
 
 @page.route('/submit_plant')
 def submit_plant():
-    return render_template('submit_plant.html')
+    categories=get_all_categories()
+    return render_template('submit_plant.html',categories=categories)
 
 
 
