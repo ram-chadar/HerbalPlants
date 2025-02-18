@@ -29,7 +29,7 @@
     >
       <div class="container">
         <!-- Brand -->
-        <a class="navbar-brand fw-bold text-success" href="#">
+        <a class="navbar-brand fw-bold text-success" href="{{ url_for('page.user_home') }}">
           <i class="fas fa-seedling"></i> User Panel
         </a>
 
@@ -60,13 +60,13 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"
+              <a class="nav-link" href="{{url_for('user.my_submission')}}"
                 ><i class="fas fa-tasks"></i> My Submissions</a
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"
-                ><i class="fas fa-user"></i> Profile</a
+              <a class="nav-link" href="{{url_for('user.profile')}}"
+                ><i class="fas fa-bell"></i> Profile</a
               >
             </li>
             <li class="nav-item">

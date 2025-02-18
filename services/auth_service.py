@@ -1,8 +1,17 @@
+from functools import wraps
 import secrets
 from flask_mail import Message
-from flask import current_app
+from flask import current_app, flash, redirect, session, url_for
 from models.user import db, User
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "user_id" not in session:  # Check if user is logged in
+            flash("You must be logged in to access this page", "danger")
+            return redirect(url_for("page.login"))  # Redirect to login page
+        return f(*args, **kwargs)
+    return decorated_function
 
 def authenticate_user(email, password):
     """Authenticate user with plain text password (not recommended for production)."""
@@ -19,6 +28,10 @@ def authenticate_user(email, password):
     if user.status == 'Blocked':
         return "User is Blocked", None
     
+    # Store user details in session after successful login
+    session["user_id"] = user.user_id
+    session["full_name"] = user.full_name
+    session["email"] = user.email
     return None, user  # No error, return user object
 
 
@@ -81,9 +94,12 @@ def verify_email_token(token, email):
 
     # Update the user's email_verified status to True
     user.email_verified = True
-    user.token = None  # Optional: Clear the token after successful verification
+    user.token = None
     db.session.commit()
 
-    return user.email  # Return the email after successful verification
+    return user.email
+
+
+
 
 

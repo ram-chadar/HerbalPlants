@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Herbal Plant</title>
+    <title>HERB AND HEAL</title>
     <!-- Bootstrap CSS -->
     <link
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -13,6 +13,8 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='plant.css') }}"
     />
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+
     <script src="{{ url_for('static', filename='localStorageUtil.js') }}"></script>
   </head>
   <body>
@@ -29,7 +31,7 @@
           {{ message }}
         </h2>
 
-        <h1>Welcome to the Herbal Plant</h1>
+        <h1>Welcome to the Herb & Heal</h1>
         <p>
           Explore a wide range of plants, their benefits, and detailed
           information.
@@ -37,66 +39,30 @@
       </div>
     </div>
 
-    <!-- Plants Section -->
-    <div class="container mt-5" id="plants-section">
-      <div class="row">
-        <!-- Plant Card Example (You can loop through plants here) -->
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <img
-              src="{{ url_for('static', filename='upload/plants/neem.png') }}"
-              class="card-img-top"
-              alt="Neem Plant"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Neem Plant</h5>
-              <p class="card-text">
-                This is a brief description of the Neem plant. It provides
-                benefits and uses for various health purposes.
-              </p>
-              <p class="card-text"><strong>Category:</strong> Medicinal</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Additional plant cards -->
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <img
-              src="{{ url_for('static', filename='upload/plants/tulsi.png') }}"
-              class="card-img-top"
-              alt="Tulsi Plant"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Tulsi Plant</h5>
-              <p class="card-text">
-                Another brief description of the plant. Learn about its uses and
-                benefits.
-              </p>
-              <p class="card-text"><strong>Category:</strong> Medicinal</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <img
-              src="{{ url_for('static', filename='upload/plants/alovera.png') }}"
-              class="card-img-top"
-              alt="Aloe Vera Plant"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Aloe Vera Plant</h5>
-              <p class="card-text">
-                Description of Aloe Vera with more details about its uses and
-                benefits.
-              </p>
-              <p class="card-text"><strong>Category:</strong> Medicinal</p>
-            </div>
-          </div>
+   <!-- Plants Section -->
+<div class="container mt-5" id="plants-section">
+  <div class="row">
+    {% for plant in approved_plants %}
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <img
+          src="{{ url_for('static', filename='upload/plants/' + plant.image) }}"
+          class="card-img-top"
+          alt="{{ plant.name }}"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ plant.name }}</h5>
+          <p class="card-text">
+            {{ plant.description }}
+          </p>
+          <p class="card-text"><strong>Category:</strong> {{ plant.category.category_name }}</p>
         </div>
       </div>
     </div>
+    {% endfor %}
+  </div>
+</div>
+
 
     <!-- Footer -->
     {% include 'footer.html' %}

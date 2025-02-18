@@ -6,28 +6,106 @@
     <title>User Home - Herbal Plants</title>
     <script src="{{ url_for('static', filename='localStorageUtil.js') }}"></script>
 
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='home.css') }}"
+    />
+
   </head>
   <body>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      <div class="container mt-3">
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        {% endfor %}
-      </div>
-    {% endif %}
-  {% endwith %}
+    
+
+    <!-- Navigation Bar -->
     {% include 'user-menu.html' %}
 
-    <!-- Page Content -->
-    <div class="container mt-5 pt-5">
-      <h2 class="text-center mt-4">Welcome to the User Panel</h2>
-      <p class="text-center text-muted">
-        Manage your plant submissions and profile here.
+    <div class="container mt-4 pt-5 text-center">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="container mt-3">
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+
+      <h1 class="text-success">Welcome to the Plant Submission Portal 🌱</h1>
+      <p class="lead fs-4">
+        Your journey to contribute valuable plant data starts here!
       </p>
+    </div>
+
+    <!-- User Workflow Section -->
+    <div class="container mt-5">
+      <div class="row">
+        <!-- Step 1 -->
+        <div class="col-md-3 text-center">
+          <img
+            src="{{ url_for('static', filename='images/register.png') }}"
+            alt="Register"
+            class="img-fluid"
+          />
+          <h4 class="mt-3">1. Register & Verify Email</h4>
+          <p class="fs-5">
+            Sign up and verify your email to start using our platform.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="col-md-3 text-center">
+          <img
+            src="{{ url_for('static', filename='images/login.png') }}"
+            alt="Login"
+            class="img-fluid"
+          />
+          <h4 class="mt-3">2. Login & Submit Plant</h4>
+          <p class="fs-5">
+            Log in to your account and submit new plant information
+            effortlessly.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="col-md-3 text-center">
+          <img
+            src="{{ url_for('static', filename='images/track.png') }}"
+            alt="Track Submission"
+            class="img-fluid"
+          />
+          <h4 class="mt-3">3. Track Submission Status</h4>
+          <p class="fs-5">
+            Monitor the progress of your submitted plants in real-time.
+          </p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="col-md-3 text-center">
+          <img
+            src="{{ url_for('static', filename='images/profile.png') }}"
+            alt="Update Profile"
+            class="img-fluid"
+          />
+          <h4 class="mt-3">4. Update Profile</h4>
+          <p class="fs-5">
+            Manage your personal details and preferences anytime.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="container mt-5 text-center">
+      <h2>Ready to Get Started? 🌿</h2>
+      <p class="fs-4">Join our community and contribute to a greener world.</p>
+      <a
+        href="{{ url_for('page.submit_plant') }}"
+        class="btn btn-success btn-lg"
+        >Submit a Plant</a
+      >
     </div>
 
     <script>
@@ -38,4 +116,5 @@
       }
     </script>
   </body>
+  {% include 'footer.html' %}
 </html>

@@ -2,6 +2,7 @@
 from flask import Blueprint, render_template
 
 from services.admin_service import get_all_categories
+from services.common_service import get_approved_plants
 
 # Define the Blueprint 'page'
 page = Blueprint('page', __name__)
@@ -9,7 +10,8 @@ page = Blueprint('page', __name__)
 # Define routes for 'page'
 @page.route('/')
 def home():
-    return render_template('index.html')
+  approved_plants=  get_approved_plants()
+  return render_template('index.html',approved_plants=approved_plants)
 
 @page.route('/register')
 def register():
@@ -22,6 +24,10 @@ def login():
 @page.route('/user_home')
 def user_home():
     return render_template('user_home.html')
+
+@page.route('/admin_home')
+def admin_home():
+    return render_template('admin_home.html')
 
 @page.route('/submit_plant')
 def submit_plant():

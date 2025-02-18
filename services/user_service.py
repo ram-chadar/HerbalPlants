@@ -43,3 +43,9 @@ def save_plant(data, image_file):
     except Exception as e:
         db.session.rollback()
         return {"success": False, "message": f"Error saving plant: {str(e)}"}
+    
+
+def get_user_submissions(user_id):
+    # Fetch the plants submitted by the logged-in user from the database
+    submissions = Plant.query.filter_by(submitted_by=user_id).all()
+    return submissions

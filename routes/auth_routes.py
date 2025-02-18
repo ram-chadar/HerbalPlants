@@ -1,11 +1,12 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, redirect, render_template, request, session, url_for
 from services.auth_service import authenticate_user, register_user, verify_email_token
+from services.common_service import get_approved_plants
 
 
 auth_bp = Blueprint('auth', __name__)
 
 
-@auth_bp.route('/login_user', methods=['POST'])
+@auth_bp.route('/login_user', methods=['POST','GET'])
 def login():
     """Handles user login"""
     data = request.form
@@ -13,13 +14,16 @@ def login():
 
     if message:
         return render_template("login.html", message=message), 400
-    
-    # Redirect user based on role
-    return render_template("admin_home.html", user_id=user.user_id) if user.role == 'Admin' else render_template("user_home.html", user_id=user.user_id), 200
+
+    # 🔹 Use `redirect()` to ensure session persists across requests
+    return redirect(url_for("page.admin_home")) if user.role == 'Admin' else redirect(url_for("page.user_home"))
+
 
 @auth_bp.route('/logout', methods=['GET'])
 def logout():
-    return render_template("index.html"), 200
+    session.clear()
+    approved_plants=  get_approved_plants()
+    return render_template('index.html',approved_plants=approved_plants)
 
 @auth_bp.route('/register_user', methods=['POST'])
 def registeruser():
@@ -42,3 +46,5 @@ def verify_email(token, email):
         return render_template("index.html", message=f"Email successfully verified!"), 200
     except ValueError as e:
         return render_template("index.html", message=str(e)), 400
+    
+

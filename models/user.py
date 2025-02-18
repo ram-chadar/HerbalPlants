@@ -16,5 +16,8 @@ class User(db.Model):
     token = db.Column(db.String(255))
     created_at = db.Column(db.TIMESTAMP, server_default=func.current_timestamp())
 
+   # Relationship with Plant model (Use string reference to avoid NameError)
+    submitted_plants = db.relationship("Plant", backref="submitter", foreign_keys="[Plant.submitted_by]")
+
     def __repr__(self):
-        return f"<User {self.name}>"
+        return f"<User {self.email}>"
