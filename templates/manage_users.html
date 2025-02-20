@@ -24,45 +24,69 @@
     <div class="container mt-5 pt-5">
       <h2 class="text-center mb-4">Manage Users</h2>
       <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-          <thead class="table-dark">
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Status</th>
-              <th>Role</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+        <table class="table table-bordered">
+          
           <tbody>
             {% for user in users %}
+
+            <tr class="table-primary">
+              <th>#</th>
+              <td>{{loop.index}}</td>
+            </tr>
+
             <tr>
-              <td>{{ loop.index }}</td>
+              <th>Name</th>
               <td>{{ user.full_name }}</td>
+            </tr>
+
+            <tr>
+              <th>Email</th>
               <td>{{ user.email }}</td>
+            </tr>
+
+            <tr>
+              <th>Status</th>
               <td>{{ user.status }}</td>
+            </tr>
+
+            <tr>
+              <th>Role</th>
               <td>{{ user.role }}</td>
+            </tr>
+
+            <tr>
+              <th>Action</th>
               <td>
-               
                 <a
                   href="{{ url_for('admin.delete_user', user_id=user.user_id) }}"
                   class="btn btn-danger btn-sm"
                   onclick="return confirm('Are you sure?');"
                   >Delete</a
                 >
+            
                 <!-- Status Change Dropdown -->
                 <select
-                class="form-select form-select-sm d-inline-block w-auto"
-                onchange="confirmStatusChange(this, '{{ user.user_id }}')"
-              >
-              <option value="">Change Status</option>
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-                <option value="Blocked">Blocked</option>
-              </select>
+                  class="form-select form-select-sm d-inline-block w-auto"
+                  onchange="confirmStatusChange(this, '{{ user.user_id }}')"
+                >
+                  <option value="">Change Status</option>
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                  <option value="Blocked">Blocked</option>
+                </select>
+            
+                <!-- Role Change Dropdown -->
+                <select
+                  class="form-select form-select-sm d-inline-block w-auto ms-2"
+                  onchange="confirmRoleChange(this, '{{ user.user_id }}')"
+                >
+                  <option value="">Change Role</option>
+                  <option value="Admin">Admin</option>
+                  <option value="User">User</option>
+                </select>
               </td>
             </tr>
+          
             {% endfor %}
           </tbody>
         </table>
@@ -79,9 +103,20 @@
         if (confirmAction) {
           window.location.href = `/admin/change_status/${userId}?status=${newStatus}`;
         } else {
-          selectElement.value = "Change Status";
+          selectElement.value = "";
+        }
+      }
+    
+      function confirmRoleChange(selectElement, userId) {
+        let newRole = selectElement.value;
+        let confirmAction = confirm(`Are you sure you want to change the role to ${newRole}?`);
+        if (confirmAction) {
+          window.location.href = `/admin/change_role/${userId}?role=${newRole}`;
+        } else {
+          selectElement.value = "";
         }
       }
     </script>
+    
   </body>
 </html>

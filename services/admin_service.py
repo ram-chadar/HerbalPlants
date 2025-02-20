@@ -2,7 +2,8 @@ from typing import List
 from models.plant import Plant
 from models.plant_category import PlantCategory
 from models.user import User  
-from models.user import db, User 
+from models.user import db, User
+from services.notification_service import NotificationService 
 
 def get_all_users() -> List[User]:
     try:
@@ -18,18 +19,45 @@ def change_user_status(user_id, status):
         if user:
             user.status = status
             db.session.commit()
+              # Send notification
+            NotificationService.notify_user_status_change(user)
             return "User status updated successfully"
         else:
             return "User not found"
     except Exception as e:
+        return str(e)  
+    
+def change_user_role(user_id, new_role):
+    try:
+        user = User.query.get(user_id)
+        if user:
+            old_role = user.role  # Store the old role for reference
+            user.role = new_role
+            db.session.commit()
+
+            # Send notification email
+            subject = "Role Update Notification"
+            recipients = [user.email]  # Send to the user's email
+            body = f"Dear {user.full_name},\n\nYour role has been changed from {old_role} to {new_role}.\n\nRegards,\nAdmin Team"
+            
+            NotificationService.send_email(subject, recipients, body)
+
+            return "User role updated successfully"
+        else:
+            return "User not found"
+    except Exception as e:
         return str(e)
+
+
     
 def delete_user_by_id(user_id):
     try:
         user = User.query.get(user_id)  
         if user:
             db.session.delete(user)  
-            db.session.commit()  
+            db.session.commit()
+             # Send deletion notification
+            NotificationService.notify_user_deletion(user)  
             return True
         return False  
     except Exception as e:
@@ -97,4 +125,9 @@ def update_plant_status(plant_id, status):
     plant.submission_status = status
     db.session.commit()
     
-    return f"Plant status updated to {status}"    
+    # Fetch user who submitted the plant
+    user = User.query.get(plant.submitted_by)
+    if user:
+        NotificationService.notify_plant_status_update(user, plant)
+
+    return f"Plant status updated to {status}"   

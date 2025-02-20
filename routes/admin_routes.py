@@ -1,6 +1,6 @@
 from email.mime import message
 from flask import Blueprint, flash, redirect, render_template, request, url_for
-from services.admin_service import change_user_status, delete_user_by_id, edit_plant_category, get_all_categories, get_all_plants, get_all_users, save_category, update_plant_status
+from services.admin_service import change_user_role, change_user_status, delete_user_by_id, edit_plant_category, get_all_categories, get_all_plants, get_all_users, save_category, update_plant_status
 from services.auth_service import login_required
 from services.statistics_metrics_service import (
     get_total_registered_users,
@@ -53,6 +53,24 @@ def change_status(user_id):
         flash(message, "success")  # Success message
 
     return redirect(url_for("page.admin_home"))  
+
+@admin_bp.route("/change_role/<int:user_id>", methods=["GET", "POST"])
+@login_required
+def change_role(user_id):
+    role = request.args.get("role")
+    if not role:
+        flash("Role is required", "danger")
+        return redirect(url_for("admin.manage_users"))  # Redirect back
+
+    message = change_user_role(user_id, role)  # Function to update role in DB
+    
+    if "not found" in message:
+        flash(message, "danger")  # Error message
+    else:
+        flash(message, "success")  # Success message
+
+    return redirect(url_for("page.admin_home"))  
+
 
 
 # categories paths*******************************************

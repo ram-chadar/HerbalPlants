@@ -16,82 +16,71 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     />
 
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-    <style>
-      .table th,
-      .table td {
-        white-space: nowrap;
-      }
-      .table-responsive {
-        overflow-x: auto;
-      }
-    </style>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
+    
   </head>
   <body>
     {% include 'user-menu.html' %}
     <div class="container mt-5 pt-5">
       <h2 class="text-center mb-4">My Submitted Plants 🌿</h2>
       <div class="table-responsive">
-        <table class="table table-bordered table-hover text-center">
-          <thead class="table-dark">
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Submitted By</th>
-              <th>Image</th>
-              <th>Submission Status</th>
-              <th>Description</th>
-              <th>Benefits</th>
-              <th>Uses</th>
-            </tr>
-          </thead>
+        <table class="table table-bordered">
           <tbody>
             {% for plant in submissions %}
             <tr>
+              <th>#</th>
               <td>{{ loop.index }}</td>
+            </tr>
+            <tr>
+              <th>Name</th>
               <td>{{ plant.name }}</td>
+            </tr>
+            <tr>
+              <th>Category</th>
               <td>{{ plant.category.category_name }}</td>
+            </tr>
+            <tr>
+              <th>Submitted By</th>
               <td>{{ plant.submitter.email }}</td>
+            </tr>
+            <tr>
+              <th>Image</th>
               <td>
-                <a
-                  href="{{ url_for('static', filename='upload/plants/' + plant.image) }}"
-                  target="_blank"
-                >
-                  <img
-                    src="{{ url_for('static', filename='upload/plants/' + plant.image) }}"
-                    alt="Plant Image"
-                    width="50"
-                    height="50"
-                    class="rounded"
-                  />
+                <a href="{{ url_for('static', filename='upload/plants/' + plant.image) }}" target="_blank">
+                  <img src="{{ url_for('static', filename='upload/plants/' + plant.image) }}" alt="Plant Image" />
                 </a>
               </td>
+            </tr>
+            <tr>
+              <th>Submission Status</th>
               <td>{{ plant.submission_status }}</td>
+            </tr>
+            <tr>
+              <th>Description</th>
               <td>
-                <button
-                  class="btn btn-primary btn-sm"
-                  onclick="showPopup('Description', `{{ plant.description|escape }}`)"
-                >
+                <button class="btn btn-primary btn-sm" onclick="showPopup('Description', `{{ plant.description|escape }}`)">
                   Show
                 </button>
               </td>
+            </tr>
+            <tr>
+              <th>Benefits</th>
               <td>
-                <button
-                  class="btn btn-success btn-sm"
-                  onclick="showPopup('Benefits', `{{ plant.benefits|safe }}`)"
-                >
+                <button class="btn btn-success btn-sm" onclick="showPopup('Benefits', `{{ plant.benefits|safe }}`)">
                   Show
                 </button>
               </td>
+            </tr>
+            <tr>
+              <th>Uses</th>
               <td>
-                <button
-                  class="btn btn-warning btn-sm"
-                  onclick="showPopup('Uses', `{{ plant.uses|safe }}`)"
-                >
+                <button class="btn btn-warning btn-sm" onclick="showPopup('Uses', `{{ plant.uses|safe }}`)">
                   Show
                 </button>
               </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bg-light"></td>
             </tr>
             {% endfor %}
           </tbody>
@@ -105,21 +94,11 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="modalTitle"></h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body" id="modalBody"></div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -131,9 +110,7 @@
       function showPopup(title, content) {
         document.getElementById("modalTitle").innerText = title;
         document.getElementById("modalBody").innerText = content;
-        var textModal = new bootstrap.Modal(
-          document.getElementById("textModal")
-        );
+        var textModal = new bootstrap.Modal(document.getElementById("textModal"));
         textModal.show();
       }
     </script>

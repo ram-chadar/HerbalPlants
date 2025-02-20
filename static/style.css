@@ -17,4 +17,20 @@ body::before {
     z-index: -1;
 }
 
+.table th {
+  width: auto;
+  background-color: #e7edf3;
+  text-align: left;
+  padding: 10px;
+  font-weight: bold;
+}
+.table td {
+  width:auto;
+  padding: 10px;
+}
+.table img {
+  max-width: 100px;
+  height: auto;
+  border-radius: 5px;
+}
 

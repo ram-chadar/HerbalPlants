@@ -1,166 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manage Plants</title>
 
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <!-- Font Awesome (for icons) -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Plants</title>
 
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-    <style>
-      
-      .table th,
-      .table td {
-        white-space: nowrap;
-      }
-      .table-responsive {
-        overflow-x: auto;
-      }
-    </style>
-  </head>
-  <body>
-    {% include 'admin-menu.html' %}
-    <div class="container mt-5 pt-5">
-      <h2 class="text-center mb-4">Manage Plants</h2>
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover text-center">
-          <thead class="table-dark">
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Submitted By</th>
-              <th>Image</th>
-              <th>Submission Status</th>
-              <th>Description</th>
-              <th>Benefits</th>
-              <th>Uses</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for plant in plants %}
-            <tr>
-              <td>{{ loop.index }}</td>
-              <td>{{ plant.name }}</td>
-              <td>{{ plant.category.category_name }}</td>
-              <td>{{ plant.submitter.email }}</td>
-              <td>
-                <a
-                  href="{{ url_for('static', filename='upload/plants/' + plant.image) }}"
-                  target="_blank"
-                >
-                  <img
-                    src="{{ url_for('static', filename='upload/plants/' + plant.image) }}"
-                    alt="Plant Image"
-                    width="50"
-                    height="50"
-                    class="rounded"
-                  />
-                </a>
-              </td>
-              <td>{{ plant.submission_status }}</td>
-              <td>
-                <button
-                  class="btn btn-primary btn-sm"
-                  onclick="showPopup('Description', `{{ plant.description|escape }}`)"
-                >
-                  Show
-                </button>
-              </td>
-              <td>
-                <button
-                  class="btn btn-success btn-sm"
-                  onclick="showPopup('Benefits', `{{ plant.benefits|safe }}`)"
-                >
-                  Show
-                </button>
-              </td>
-              <td>
-                <button
-                  class="btn btn-warning btn-sm"
-                  onclick="showPopup('Uses', `{{ plant.uses|safe }}`)"
-                >
-                  Show
-                </button>
-              </td>
-              <td>
-                <select
-                  class="form-select form-select-sm d-inline-block w-auto"
-                  onchange="confirmStatusChange(this, '{{ plant.plant_id }}')"
-                >
-                  <option value="">Change Status</option>
-                  <option value="Pending">Pending</option>
-                  <option value="Approved">Approved</option>
-                  <option value="Rejected">Rejected</option>
-                </select>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome (for icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+  <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+
+</head>
+
+<body>
+  {% include 'admin-menu.html' %}
+  <div class="container mt-5 pt-5">
+    <h2 class="text-center mb-4">Manage Plants</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+
+        <tbody>
+          {% for plant in plants %}
+
+          <tr class="table-primary">
+            <th>#</th>
+            <td>{{ loop.index }}</td>
+          </tr>
+
+          <tr>
+            <th>Name</th>
+            <td>{{ plant.name }}</td>
+          </tr>
+
+          <tr>
+            <th>Category</th>
+            <td>{{ plant.category.category_name }}</td>
+          </tr>
+
+          <tr>
+            <td>{{ Submitter }}</td>
+            <td>{{ plant.submitter.email }}</td>
+          </tr>
+
+          <tr>
+            <th>Image</th>
+            <td>
+              <a href="{{ url_for('static', filename='upload/plants/' + plant.image) }}" target="_blank">
+                <img src="{{ url_for('static', filename='upload/plants/' + plant.image) }}" alt="Plant Image" width="50"
+                  height="50" class="rounded" />
+              </a>
+            </td>
+
+          </tr>
+
+          <tr>
+            <th>Status</th>
+            
+            <td>{{ plant.submission_status }}</td>
+            </td>
+          </tr>
+
+          <tr>
+            <th>Action</th>
+            <td>
+              <button class="btn btn-primary btn-sm"
+                onclick="showPopup('Description', `{{ plant.description|escape }}`)">
+                Show
+              </button>
+           
+            
+              <button class="btn btn-success btn-sm" onclick="showPopup('Benefits', `{{ plant.benefits|safe }}`)">
+                Show
+              </button>
+            
+              <button class="btn btn-warning btn-sm" onclick="showPopup('Uses', `{{ plant.uses|safe }}`)">
+                Show
+              </button>
+            
+              <select class="form-select form-select-sm d-inline-block w-auto"
+                onchange="confirmStatusChange(this, '{{ plant.plant_id }}')">
+                <option value="">Change Status</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+            </td>
+          </tr>
+
+
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
+  </div>
 
-    <!-- Modal Popup -->
-    <div class="modal fade" id="textModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalTitle"></h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-            ></button>
-          </div>
-          <div class="modal-body" id="modalBody"></div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-          </div>
+  <!-- Modal Popup -->
+  <div class="modal fade" id="textModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      function showPopup(title, content) {
-        document.getElementById("modalTitle").innerText = title;
-        document.getElementById("modalBody").innerText = content;
-        var textModal = new bootstrap.Modal(
-          document.getElementById("textModal")
-        );
-        textModal.show();
-      }
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function showPopup(title, content) {
+      document.getElementById("modalTitle").innerText = title;
+      document.getElementById("modalBody").innerText = content;
+      var textModal = new bootstrap.Modal(
+        document.getElementById("textModal")
+      );
+      textModal.show();
+    }
 
-      function confirmStatusChange(selectElement, plantId) {
-        let newStatus = selectElement.value;
-        let confirmAction = confirm(
-          `Are you sure you want to change the status to ${newStatus}?`
-        );
-        if (confirmAction) {
-          window.location.href = `/admin/change_plant_status/${plantId}?status=${newStatus}`;
-        } else {
-          selectElement.value = "Change Status";
-        }
+    function confirmStatusChange(selectElement, plantId) {
+      let newStatus = selectElement.value;
+      let confirmAction = confirm(
+        `Are you sure you want to change the status to ${newStatus}?`
+      );
+      if (confirmAction) {
+        window.location.href = `/admin/change_plant_status/${plantId}?status=${newStatus}`;
+      } else {
+        selectElement.value = "Change Status";
       }
-    </script>
-  </body>
+    }
+  </script>
+</body>
+
 </html>
