@@ -19,7 +19,7 @@ class Plant(db.Model):
     image = db.Column(db.String(255), nullable=True)  # Store image filename
 
     # Relationship to fetch submitted user details
-    submitted_user = relationship("User", foreign_keys=[submitted_by])
+    submitted_user = db.relationship("User", foreign_keys=[submitted_by], overlaps="submitted_plants,submitter")
 
     def __repr__(self):
         return f"<Plant {self.name}, Status: {self.submission_status}>"

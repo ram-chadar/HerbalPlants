@@ -1,7 +1,11 @@
+from datetime import datetime, timedelta, timezone
 import os
+
+from flask import request
 from models import db
 from models.plant import Plant
 from models.user import User
+from models.visitor import Visitor
 
 def get_approved_plants():
     try:
@@ -72,5 +76,45 @@ def update_user_profile(data):
     )
 
     return "User profile updated successfully!", "success"
+
+from datetime import datetime, timedelta, timezone
+
+def track_visitor():
+    """Tracks visitor IP and ensures no duplicate entry within 30 minutes."""
+    try:
+        user_ip = request.remote_addr  # Get user's IP address
+        current_time = datetime.now(timezone.utc).replace(tzinfo=None)  # Convert to naive UTC
+
+        time_threshold = current_time - timedelta(minutes=1)  # 1 minutes threshold
+        print("Current UTC Time:", current_time)
+
+        # Fetch the latest visitor entry
+        recent_visit = Visitor.query.filter(
+            Visitor.ip_address == user_ip,
+            Visitor.visit_time > time_threshold
+        ).first()
+
+        if recent_visit:
+            db_time = recent_visit.visit_time
+            print("DB Time (Before Conversion):", db_time)
+
+            # If db_time is not naive, convert it to naive UTC
+            if db_time and db_time.tzinfo is not None:
+                db_time = db_time.astimezone(timezone.utc).replace(tzinfo=None)
+
+            print("DB Time (After Conversion to Naive UTC):", db_time)
+
+        else:
+            print("No recent visit found. Adding new visitor record.")
+
+        # Allow a new record only if no recent visit exists
+        if not recent_visit:
+            new_visitor = Visitor(ip_address=user_ip, visit_time=current_time)
+            db.session.add(new_visitor)
+            db.session.commit()
+
+    except Exception as e:
+        print(f"Error tracking visitor: {str(e)}")  # Replace with logging in production
+
 
     

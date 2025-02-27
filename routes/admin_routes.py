@@ -9,6 +9,7 @@ from services.statistics_metrics_service import (
     get_submission_status_counts,
     get_most_common_plant_categories,
     get_most_active_contributors,
+    get_unique_visitors_per_period,
     get_visitors_per_period,
 )
 # Define the Blueprint 'admin'
@@ -141,6 +142,7 @@ def dashboard():
         "total_users": get_total_registered_users(),
         "active_users": get_active_vs_inactive_users()["active_users"],
         "inactive_users": get_active_vs_inactive_users()["inactive_users"],
+        "blocked_users": get_active_vs_inactive_users()["blocked_users"],
         "total_plants": get_total_plant_submissions(),
         "approved_plants": status_counts.get("Approved", 0),
         "pending_plants": status_counts.get("Pending", 0),
@@ -149,6 +151,8 @@ def dashboard():
         "top_contributors": get_most_active_contributors(),
         "daily_visitors": get_visitors_per_period("day")["visitors"],
         "monthly_visitors": get_visitors_per_period("month")["visitors"],
+        "daily_unique_visitore":get_unique_visitors_per_period("day")["unique_visitors"],
+        "monthly_unique_visitore":get_unique_visitors_per_period("month")["unique_visitors"],
     }
     
     return render_template("dashboard.html", metrics=metrics)

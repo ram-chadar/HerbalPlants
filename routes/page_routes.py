@@ -2,7 +2,7 @@
 from flask import Blueprint, render_template
 
 from services.admin_service import get_all_categories
-from services.common_service import get_approved_plants
+from services.common_service import get_approved_plants, track_visitor
 
 # Define the Blueprint 'page'
 page = Blueprint('page', __name__)
@@ -10,6 +10,7 @@ page = Blueprint('page', __name__)
 # Define routes for 'page'
 @page.route('/')
 def home():
+  track_visitor()
   approved_plants=  get_approved_plants()
   return render_template('index.html',approved_plants=approved_plants)
 

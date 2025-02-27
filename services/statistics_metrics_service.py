@@ -14,7 +14,8 @@ def get_active_vs_inactive_users():
     """Returns the number of active vs. inactive users."""
     active_users = db.session.query(func.count(User.user_id)).filter(User.status == 'Active').scalar()
     inactive_users = db.session.query(func.count(User.user_id)).filter(User.status == 'Inactive').scalar()
-    return {"active_users": active_users, "inactive_users": inactive_users}
+    blocked_users = db.session.query(func.count(User.user_id)).filter(User.status == 'Blocked').scalar()
+    return {"active_users": active_users, "inactive_users": inactive_users,"blocked_users":blocked_users}
 
 def get_total_plant_submissions():
     """Returns the total number of plant submissions."""
@@ -65,3 +66,21 @@ def get_visitors_per_period(period='day'):
         return {"error": "Invalid period. Use 'day' or 'month'."}
     
     return {"period": period, "visitors": visitors_count}
+
+
+def get_unique_visitors_per_period(period='day'):
+    """Returns the number of unique visitors per day or month based on visit_time."""
+    if period == 'day':
+        date_filter = datetime.utcnow().date()
+        visitors_count = db.session.query(func.count(func.distinct(Visitor.ip_address))) \
+            .filter(func.date(Visitor.visit_time) == date_filter) \
+            .scalar()
+    elif period == 'month':
+        start_date = datetime.utcnow().replace(day=1)
+        visitors_count = db.session.query(func.count(func.distinct(Visitor.ip_address))) \
+            .filter(Visitor.visit_time >= start_date) \
+            .scalar()
+    else:
+        return {"error": "Invalid period. Use 'day' or 'month'."}
+    
+    return {"period": period, "unique_visitors": visitors_count}
